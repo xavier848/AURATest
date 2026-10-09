@@ -77,6 +77,10 @@ src/
 
 Alle Produkt- und Stimmungsbilder sind Vektorgrafiken im Code. Für den Launch werden sie durch echte Produktfotografie ersetzt.
 
+## 3D-Flakon (Blender)
+
+Im Ordner `blender/` liegt ein fotorealistisches Blender-Modell des Flakons (Bernstein-Variante) mit fertiger Szene, Skript und Rendering. Details in [`blender/README.md`](blender/README.md).
+
 ## Vor dem echten Verkauf
 
 - Echtes Shopsystem und Zahlungsanbieter anbinden. Der Bestellbutton muss dann „Zahlungspflichtig bestellen“ lauten.
