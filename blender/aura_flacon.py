@@ -248,14 +248,14 @@ TOP_ROT = 0.35
 
 # Falten: (Winkel am Rand, Drehung bis oben, Breite, Höhe relativ zum Radius, Start t)
 FOLDS = [
-    (FRONT + 0.10, 0.35, 0.34, -0.220, 0.25),  # Mittelfalte von oben
+    (FRONT + 0.10, 0.35, 0.22, -0.220, 0.25),  # Mittelfalte von oben
     (FRONT - 0.85, 0.90, 1.00, +0.170, 0.00),  # großer Bauch links
-    (FRONT + 0.85, 1.10, 0.40, -0.190, 0.05),  # schräge Falte rechts
+    (FRONT + 0.85, 1.10, 0.26, -0.190, 0.05),  # schräge Falte rechts
     (FRONT + 1.55, 0.90, 0.90, +0.150, 0.00),
     (FRONT + 2.60, 1.00, 0.80, +0.150, 0.00),
-    (FRONT + 3.30, 1.20, 0.36, -0.170, 0.10),
+    (FRONT + 3.30, 1.20, 0.24, -0.170, 0.10),
     (FRONT + 4.20, 0.90, 0.90, +0.160, 0.00),
-    (FRONT + 4.90, 1.00, 0.36, -0.150, 0.20),
+    (FRONT + 4.90, 1.00, 0.24, -0.150, 0.20),
 ]
 LUMPS = 0.11  # großflächige, organische Dellen
 
@@ -288,8 +288,8 @@ def fold(a, t):
     for a0, twist, width, amp, t0 in FOLDS:
         d = wrap(a - a0 - twist * t)
         if abs(d) < width:
-            if amp < 0:  # Täler schmal und scharf, Bäuche breit und weich
-                bump = (1.0 - abs(d) / width) ** 2
+            if amp < 0:  # Täler schmal, aber ohne Spitze im Grund (sonst Sägezahn im Netz)
+                bump = (1.0 - (d / width) ** 2) ** 2
             else:
                 bump = 0.5 * (1.0 + math.cos(math.pi * d / width))
             s += amp * bump * smoothstep(t0, t0 + 0.3, t + 0.15)
@@ -300,7 +300,7 @@ def fold(a, t):
     return s * env
 
 
-def build_cap(bvh, nt=144, nr=56):
+def build_cap(bvh, nt=216, nr=64):
     def glass_r(a, z):
         o = Vector((0.0, 0.0, z))
         hit = bvh.ray_cast(o, Vector((math.cos(a), math.sin(a), 0.0)), 5.0)
